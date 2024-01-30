@@ -40,6 +40,11 @@ function App() {
 		}
 	};
 
+	const handleDelete = ({ id }) => {
+		const newList = todoList.filter((el) => el.id !== id);
+		setTodoList(newList);
+	};
+
 	return (
 		<div style={{ padding: 8 }}>
 			<h1>Add your task...</h1>
@@ -72,7 +77,7 @@ function App() {
 						<p>{el.todo}</p>
 						<div>
 							<button onClick={() => handleEdit(el)}>Editar</button>
-							<button>Excluir</button>
+							<button onClick={() => handleDelete(el)}>Excluir</button>
 						</div>
 					</div>
 				))}
