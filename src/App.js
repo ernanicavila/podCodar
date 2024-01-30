@@ -4,6 +4,7 @@ function App() {
 	const [todo, setTodo] = React.useState({
 		todo: '',
 		id: '',
+		done: false,
 	});
 	const [todoList, setTodoList] = React.useState([]);
 	const [err, setErr] = React.useState('');
@@ -21,6 +22,7 @@ function App() {
 		setTodo({
 			todo: '',
 			id: '',
+			done: false,
 		});
 	};
 
@@ -45,6 +47,18 @@ function App() {
 		setTodoList(newList);
 	};
 
+	const handleToggleDone = (id) => {
+		const index = todoList.findIndex((t) => t.id === id);
+
+		if (index !== -1) {
+			const updatedList = [...todoList];
+
+			updatedList[index].done = !updatedList[index].done;
+
+			setTodoList(updatedList);
+		}
+	};
+
 	return (
 		<div style={{ padding: 8 }}>
 			<h1>Add your task...</h1>
@@ -55,7 +69,9 @@ function App() {
 						type="text"
 						onChange={(e) => setTodo({ ...todo, todo: e.target.value })}
 					/>
-					<button onClick={() => handleSubmit()}>Enviar</button>
+					<button onClick={() => handleSubmit()}>
+						{!todo.id ? 'Enviar' : 'Atualizar'}
+					</button>
 				</div>
 				<p style={{ color: 'red' }}>{err}</p>
 			</section>
@@ -72,8 +88,15 @@ function App() {
 							alignItems: 'center',
 							padding: 4,
 							margin: 4,
+              color: el.done ? 'red' : 'black',
+							textDecoration: el.done ? 'line-through' : 'none',
 						}}
 					>
+						<input
+							type="checkbox"
+							onChange={() => handleToggleDone(el.id)}
+							value={todo.done}
+						/>
 						<p>{el.todo}</p>
 						<div>
 							<button onClick={() => handleEdit(el)}>Editar</button>
